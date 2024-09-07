@@ -27,6 +27,11 @@ pre-release: fmt vet test
 build:
 	go build -ldflags='-w -s -extldflags' -a -o azure_function/bin/wg ./cmd
 
+.PHONE: run
+## Runs the application
+run:
+	go run ./cmd
+
 .PHONE: start
 ## Start local development instance using azure function runtime
 start: build

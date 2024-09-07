@@ -1,37 +1,10 @@
-package wg
+package drinks
 
 import (
 	"golang.org/x/net/html"
 )
 
 type Action func(node *html.Node)
-
-func ApplyToAll(n *html.Node, args []string, action Action) {
-	var f func(*html.Node, []string, bool)
-	f = func(n *html.Node, args []string, uni bool) {
-		if uni == true {
-			if n.Type == html.ElementNode && matchElementName(n, args[0]) {
-				if len(args) > 1 && len(args) < 4 {
-					for i := 0; i < len(n.Attr); i++ {
-						attr := n.Attr[i]
-						searchAttrName := args[1]
-						searchAttrVal := args[2]
-						if attributeAndValueEquals(attr, searchAttrName, searchAttrVal) {
-							action(n)
-						}
-					}
-				} else if len(args) == 1 {
-					action(n)
-				}
-			}
-		}
-		uni = true
-		for c := n.FirstChild; c != nil; c = c.NextSibling {
-			f(c, args, true)
-		}
-	}
-	f(n, args, false)
-}
 
 // Using depth first search to find the first occurrence and return
 func findOnce(n *html.Node, args []string, uni bool) (*html.Node, bool) {
