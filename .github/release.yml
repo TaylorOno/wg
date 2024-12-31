@@ -1,0 +1,31 @@
+# GitHub Actions Workflow created for handling the release process based on the draft release prepared
+# with the Build workflow. Running the publishPlugin task requires the PUBLISH_TOKEN secret provided.
+
+name: Release
+on:
+  release:
+    types: [prereleased, released]
+
+jobs:
+  job_id:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v4
+
+      - id: auth
+        name: Authenticate
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: taylor-test-project-381722
+          workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+
+      - id: deploy'
+        name: Deploy
+        uses: google-github-actions/deploy-cloud-functions@v3
+        timeout-minutes: 10
+        with:
+          name: wg-drinks
+          runtime: go122
