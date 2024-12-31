@@ -4,19 +4,33 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
+	"strings"
 
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
 	"golang.org/x/net/html"
-	"wg/internal/storage"
 )
 
 func init() {
-	functions.HTTP("drinks", Drinks)
-	functions.HTTP("history", History)
+	functions.HTTP("base", base)
+}
+
+func base(w http.ResponseWriter, r *http.Request) {
+	path := r.URL.Path
+	switch {
+	case strings.HasPrefix(path, "/history"):
+		History(w, r)
+		return
+	case strings.HasPrefix(path, "/drinks"):
+		Drinks(w, r)
+		return
+	default:
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
 }
 
 // Drinks renders the enhanced drink menu with tracking and rating support.
-func Drinks(w http.ResponseWriter, _ *http.Request) {
+func Drinks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -49,7 +63,7 @@ func History(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Access-Control-Max-Age", "3600")
 
-	historyService := HistoryService{storage: storage.NewTursoDatabase()}
+	historyService := HistoryService{storage: NewTursoDatabase()}
 
 	switch r.Method {
 	case http.MethodPost:

@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	drinks "wg/internal"
+	"github.com/TaylorOno/wg/drinks"
 )
 
 func main() {
