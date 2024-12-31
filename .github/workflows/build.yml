@@ -44,7 +44,7 @@ jobs:
         run: go mod tidy
 
       - name: Test
-        run: go test -json > TestResults.json
+        run: go test ./... -json > TestResults.json
 
       - name: Upload Results
         uses: actions/upload-artifact@v4
