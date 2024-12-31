@@ -82,7 +82,7 @@
 
 <dialog class="modal" style="max-width: 90vw" open="">
     <section style="overflow: auto; min-width: 100%; min-height: 100%; background-color: rgb(30, 29, 28)">
-        <header class="generic-header"><h2 class="sec-title white">Your History</h2></header>
+        <header class="generic-header"><h2 class="sec-title white">Shared History</h2></header>
         <ul class="history no-style no-top white">
             {{ range $key, $value := .}}
             <li id="{{ $key }}.history">
@@ -101,13 +101,13 @@
             </li>
             {{end -}}
         </ul>
-        <form method="dialog">
-            <section class="blk food-nav cf">
-                <div class="wrap cf" style="justify-content: center;display: flex">
-                    <div class="btn btn-bling btn-gold"><a inert="true">close</a></div>
-                </div>
-            </section>
-        </form>
+{{/*        <form method="dialog">*/}}
+{{/*            <section class="blk food-nav cf">*/}}
+{{/*                <div class="wrap cf" style="justify-content: center;display: flex">*/}}
+{{/*                    <div class="btn btn-bling btn-gold"><a inert="true">close</a></div>*/}}
+{{/*                </div>*/}}
+{{/*            </section>*/}}
+{{/*        </form>*/}}
     </section>
 </dialog>
 </html>

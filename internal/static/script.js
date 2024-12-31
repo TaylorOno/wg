@@ -273,8 +273,8 @@ function shareHistory() {
             }
         })
         .then(respJson => {
-            navigator.clipboard.writeText("https://localhost:9090/history/"+respJson.id);
-            alert("Copied the text: https://localhost:9090/history/"+respJson.id);
+            navigator.clipboard.writeText(location.protocol + '//' + location.host + "/history/"+respJson.id);
+            alert("Copied the text: " + location.protocol + '//' + location.host + "/history/"+respJson.id);
         })
         .catch(err => {
             if (err === "server") return
