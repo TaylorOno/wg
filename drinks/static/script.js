@@ -257,7 +257,7 @@ function removeItemFromHistory(key) {
 function shareHistory() {
     let drinkLog = new Map(JSON.parse(localStorage.log));
     let data = JSON.stringify(Object.fromEntries(drinkLog))
-    fetch("/history", {
+    fetch("/wg-drinks/history", {
         credentials: "same-origin",
         mode: "same-origin",
         method: "post",
@@ -273,8 +273,8 @@ function shareHistory() {
             }
         })
         .then(respJson => {
-            navigator.clipboard.writeText(location.protocol + '//' + location.host + "/history/"+respJson.id);
-            alert("Copied the text: " + location.protocol + '//' + location.host + "/history/"+respJson.id);
+            navigator.clipboard.writeText(location.protocol + '//' + location.host + "/wg-drinks/history/"+respJson.id);
+            alert("Copied the text: " + location.protocol + '//' + location.host + "/wg-drinks/history/"+respJson.id);
         })
         .catch(err => {
             if (err === "server") return

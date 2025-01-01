@@ -11,7 +11,14 @@ import (
 )
 
 func init() {
-	functions.HTTP("base", base)
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/wg-drinks/menu", http.StatusMovedPermanently)
+	})
+	mux.HandleFunc("/menu", Drinks)
+	mux.HandleFunc("POST /history", History)
+	mux.HandleFunc("GET /history/{id}", History)
+	functions.HTTP("base", mux.ServeHTTP)
 }
 
 func base(w http.ResponseWriter, r *http.Request) {
@@ -20,7 +27,7 @@ func base(w http.ResponseWriter, r *http.Request) {
 	case strings.HasPrefix(path, "/history"):
 		History(w, r)
 		return
-	case strings.HasPrefix(path, "/drinks"):
+	case strings.HasPrefix(path, "/menu"):
 		Drinks(w, r)
 		return
 	default:
