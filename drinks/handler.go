@@ -2,42 +2,32 @@ package drinks
 
 import (
 	"fmt"
-	"log/slog"
-	"net/http"
-	"strings"
-
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
 	"golang.org/x/net/html"
+	"log/slog"
+	"net/http"
 )
 
 func init() {
+	functions.HTTP("base", WG().ServeHTTP)
+}
+
+func WG() *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/wg-drinks/menu", http.StatusMovedPermanently)
-	})
-	mux.HandleFunc("/menu", Drinks)
+	mux.HandleFunc("/", redirectHome)
+	mux.HandleFunc("/menu", DrinkMenu)
 	mux.HandleFunc("POST /history", History)
 	mux.HandleFunc("GET /history/{id}", History)
-	functions.HTTP("base", mux.ServeHTTP)
+
+	return mux
 }
 
-func base(w http.ResponseWriter, r *http.Request) {
-	path := r.URL.Path
-	switch {
-	case strings.HasPrefix(path, "/history"):
-		History(w, r)
-		return
-	case strings.HasPrefix(path, "/menu"):
-		Drinks(w, r)
-		return
-	default:
-		w.WriteHeader(http.StatusNotFound)
-		return
-	}
+func redirectHome(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "/wg-drinks/menu", http.StatusMovedPermanently)
 }
 
-// Drinks renders the enhanced drink menu with tracking and rating support.
-func Drinks(w http.ResponseWriter, r *http.Request) {
+// DrinkMenu renders the enhanced drink menu with tracking and rating support.
+func DrinkMenu(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")

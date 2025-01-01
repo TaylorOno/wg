@@ -274,7 +274,7 @@ function shareHistory() {
         })
         .then(respJson => {
             navigator.clipboard.writeText(location.protocol + '//' + location.host + "/wg-drinks/history/"+respJson.id);
-            alert("Copied the text: " + location.protocol + '//' + location.host + "/wg-drinks/history/"+respJson.id);
+            alert("Copied link to clipboard: \n" + location.protocol + '//' + location.host + "/wg-drinks/history/"+respJson.id);
         })
         .catch(err => {
             if (err === "server") return

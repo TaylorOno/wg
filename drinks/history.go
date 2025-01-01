@@ -16,6 +16,7 @@ import (
 	"log/slog"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 //go:embed templates/*
@@ -34,7 +35,7 @@ type DrinkHistory map[string]DrinkDetails
 
 type DrinkDetails struct {
 	Name        string
-	Date        string
+	Date        time.Time
 	Description string
 	Score       []bool
 }
@@ -55,9 +56,14 @@ func (d *DrinkDetails) UnmarshalJSON(data []byte) error {
 		score[i] = true
 	}
 
+	date, err := time.Parse(time.RFC3339, fmt.Sprintf("%v", drinkDetails["date"]))
+	if err != nil {
+		date = time.Now()
+	}
+
 	*d = DrinkDetails{
 		Name:        fmt.Sprintf("%v", drinkDetails["name"]),
-		Date:        fmt.Sprintf("%v", drinkDetails["date"]),
+		Date:        date,
 		Description: fmt.Sprintf("%v", drinkDetails["description"]),
 		Score:       score,
 	}

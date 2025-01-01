@@ -86,7 +86,7 @@
         <ul class="history no-style no-top white">
             {{ range $key, $value := .}}
             <li id="{{ $key }}.history">
-                <h4 class="white">{{ $value.Name }} <span class="finished-date gold">{{ $value.Date }}</span>
+                <h4 class="white">{{ $value.Name }} <span class="finished-date gold">{{ $value.Date.Format "January 01, 2006" }}</span>
                     <span id="{{ $key }}.rating" class="rating" style="visibility: visible;">
                     {{ range $index := $value.Score -}}
                     {{ if . -}}
@@ -101,13 +101,13 @@
             </li>
             {{end -}}
         </ul>
-{{/*        <form method="dialog">*/}}
-{{/*            <section class="blk food-nav cf">*/}}
-{{/*                <div class="wrap cf" style="justify-content: center;display: flex">*/}}
-{{/*                    <div class="btn btn-bling btn-gold"><a inert="true">close</a></div>*/}}
-{{/*                </div>*/}}
-{{/*            </section>*/}}
-{{/*        </form>*/}}
+        <form method="dialog">
+            <section class="blk food-nav cf">
+                <div class="wrap cf" style="justify-content: center;display: flex">
+                    <div class="btn btn-bling btn-gold"><a href="/wg-drinks/menu">close</a></div>
+                </div>
+            </section>
+        </form>
     </section>
 </dialog>
 </html>
