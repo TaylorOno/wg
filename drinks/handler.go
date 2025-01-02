@@ -2,10 +2,11 @@ package drinks
 
 import (
 	"fmt"
-	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
-	"golang.org/x/net/html"
 	"log/slog"
 	"net/http"
+
+	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
+	"golang.org/x/net/html"
 )
 
 func init() {

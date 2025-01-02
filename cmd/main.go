@@ -19,9 +19,7 @@ func main() {
 	if val, ok := os.LookupEnv("FUNCTIONS_CUSTOMHANDLER_PORT"); ok {
 		listenAddr = ":" + val
 	}
-	http.HandleFunc("/wg-drinks/menu", drinks.DrinkMenu)
-	http.HandleFunc("POST /wg-drinks/history", drinks.History)
-	http.HandleFunc("GET /wg-drinks/history/{id}", drinks.History)
+	http.Handle("/wg-drinks/*", http.StripPrefix("/wg-drinks", drinks.WG()))
 	slog.Info(fmt.Sprintf("listening on %s. Go to http://127.0.0.1%s/", listenAddr, listenAddr))
 	log.Fatal(http.ListenAndServe(listenAddr, nil))
 }
@@ -39,6 +37,5 @@ func getLogLevelFromEnv() slog.Level {
 		return slog.LevelError
 	default:
 		return slog.LevelInfo
-
 	}
 }

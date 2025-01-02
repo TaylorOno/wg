@@ -3,20 +3,21 @@ package drinks
 import (
 	"bytes"
 	"compress/gzip"
+	"context"
 	"crypto/sha1"
 	"embed"
 	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/google/uuid"
-	"golang.org/x/net/context"
 	"html/template"
 	"io"
 	"log/slog"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 //go:embed templates/*

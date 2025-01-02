@@ -18,7 +18,13 @@ type Turso struct {
 }
 
 func NewTursoDatabase() *Turso {
-	dbName := fmt.Sprintf("%s?authToken=%s", strings.TrimSpace(os.Getenv("TURSO_DATABASE")), strings.TrimSpace(os.Getenv("TURSO_AUTH_TOKEN")))
+	database := os.Getenv("TURSO_DATABASE")
+	token := os.Getenv("TURSO_AUTH_TOKEN")
+	if len(database) < 1 || len(token) < 1 {
+		log.Fatalf("TURSO_DATABASE and TURSO_AUTH_TOKEN are required")
+	}
+
+	dbName := fmt.Sprintf("%s?authToken=%s", strings.TrimSpace(database), strings.TrimSpace(token))
 	db, err := sql.Open("libsql", dbName)
 	if err != nil {
 		log.Fatalf("failed to open db %s: %s", dbName, err)
