@@ -28,7 +28,7 @@ jobs:
         run: go mod tidy
 
       - name: Build
-        run: go build -v ./...
+        run: go build -v ./cmd/main.go
 
   test:
     runs-on: ubuntu-latest
