@@ -86,7 +86,7 @@
         <ul class="history no-style no-top white">
             {{ range $key, $value := .}}
             <li id="{{ $key }}.history">
-                <h4 class="white">{{ $value.Name }} <span class="finished-date gold">{{ $value.Date.Format "January 01, 2006" }}</span>
+                <h4 class="white">{{ $value.Name }} <span class="finished-date gold">{{ $value.Date.Format "January 02, 2006" }}</span>
                     <span id="{{ $key }}.rating" class="rating" style="visibility: visible;">
                     {{ range $index := $value.Score -}}
                     {{ if . -}}
