@@ -7,3 +7,8 @@ To run the application locally simply run the make run command.
 make run
 ```
 The application will be available at http://localhost:9090/drinks
+
+# Deployment
+```bash
+gcloud functions deploy wg-drinks --source=./drinks
+```

@@ -25,7 +25,7 @@ pre-release: fmt vet test
 .PHONE: build
 ## Builds the binary for release
 build:
-	go build -ldflags='-w -s -extldflags' -a -o azure_function/bin/wg ./cmd
+	go build -ldflags='-w -s -extldflags' -a -o bin/wg ./cmd
 
 .PHONE: run
 ## Runs the application
