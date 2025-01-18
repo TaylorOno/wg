@@ -14,6 +14,7 @@ import (
 	"io"
 	"log/slog"
 	"net/http"
+	"sort"
 	"strconv"
 	"time"
 
@@ -34,7 +35,22 @@ type HistoryService struct {
 
 type DrinkHistory map[string]DrinkDetails
 
+func (h DrinkHistory) SortByDate() []DrinkDetails {
+	var drinks []DrinkDetails
+	for id, drink := range h {
+		drink.Id = id
+		drinks = append(drinks, drink)
+	}
+
+	sort.Slice(drinks, func(i, j int) bool {
+		return drinks[i].Date.Before(drinks[j].Date)
+	})
+
+	return drinks
+}
+
 type DrinkDetails struct {
+	Id          string
 	Name        string
 	Date        time.Time
 	Description string
@@ -146,7 +162,7 @@ func (h *HistoryService) ViewHistory(w http.ResponseWriter, r *http.Request) err
 	}
 
 	tmpl := template.Must(template.ParseFS(templateFS, "templates/history.gohtml"))
-	_ = tmpl.Execute(w, drinkHistory)
+	_ = tmpl.Execute(w, drinkHistory.SortByDate())
 
 	return err
 }
